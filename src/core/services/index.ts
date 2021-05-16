@@ -1,0 +1,1 @@
+export * as hospitalService from './hospitalService';
