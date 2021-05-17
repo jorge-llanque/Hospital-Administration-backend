@@ -1,7 +1,11 @@
+import doctors from "../../utils/mocks/doctors";
 import hospitals from "../../utils/mocks/hospitals";
 
-export const getListData = async () => {
+export const getListData = async (entity: string) => {
     try {
+        if(entity == "Doctor"){
+            return await doctors;
+        }
         return await hospitals
     } catch (error) {
         return error;

@@ -5,7 +5,7 @@ const entity: string = "Hospital"
 
 export const listAllHospital = async (): Promise<any> => {
     try {
-        return await getListData();
+        return await getListData("");
     } catch (error) {
         return error;
     }
