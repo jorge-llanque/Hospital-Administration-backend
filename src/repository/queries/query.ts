@@ -6,49 +6,81 @@ export const getListData = async (entity: string) => {
         if(entity == "Doctor"){
             return await doctors;
         }
-        return await hospitals
+        if(entity == "Hospital"){
+            return await hospitals
+        }
+
     } catch (error) {
         return error;
     }
 }
 
-export const getOneData = async (id: string) => {
+export const getOneData = async (entity: string, id: string) => {
     try {
-        let result = await hospitals.find((data) => data.id === id);
-        return result;
+        if(entity === "Doctor"){
+            let result = await doctors.find((data) => data.id === id);
+            return result;    
+        }
+        if(entity === "Hospital"){
+            let result = await hospitals.find((data) => data.id === id);
+            return result;
+        }
+        
     } catch (error) {
         return error;
     }
 }
 
-export const insertData = async (id: string, name: string) => {
+export const insertData = async (entity:string, data: any) => {
     try {
-        await hospitals.push({id: id, name: name});
-        return hospitals
+        if(entity === "Doctor"){
+            await doctors.push(data);
+            return doctors    
+        }
+        if(entity === "Hospital"){
+            await hospitals.push(data);
+            return hospitals    
+        }
+        
     } catch (error) {
         return error;
     }
 }
 
-export const updateData = async (id: string, name: string) => {
+export const updateData = async (entity: string, id: string, newData: object) => {
     try {
-        let result = await hospitals.find((data) => {
-            if(data.id === id){
-                data.name = name;
-            }
-            return data;
-        });
-        return result
+        if(entity === "Doctor"){
+            let result = await doctors.find((data) => {
+                if(data.id === id){
+                   return Object.assign(data, newData)
+                }
+            });
+            return result
+        }
+        if(entity === "Hospital"){
+            let result = await hospitals.find((data) => {
+                if(data.id === id){
+                   return Object.assign(data, newData)
+                }
+            });
+            return result
+        }
+        
     } catch (error) {
         return error;        
     }
 }
 
-export const deleteData = async (id: string) => {
+export const deleteData = async (entity: string, id: string) => {
     try {
-
-        let idx = await hospitals.findIndex((data) => data.id === id);
-        await hospitals.splice(idx, 1);
+        if(entity === "Doctor"){
+            let idx = await doctors.findIndex((data) => data.id === id);
+            await doctors.splice(idx, 1);
+        }
+        if(entity === "Hospital"){
+            let idx = await hospitals.findIndex((data) => data.id === id);
+            await hospitals.splice(idx, 1);
+        }
 
     } catch (error) {
         return error;        

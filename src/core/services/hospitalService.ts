@@ -1,11 +1,11 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { generateId } from "../models";
+import { joinFields } from "../models";
 
 const entity: string = "Hospital"
 
 export const listAllHospital = async (): Promise<any> => {
     try {
-        return await getListData("");
+        return await getListData(entity);
     } catch (error) {
         return error;
     }
@@ -13,7 +13,7 @@ export const listAllHospital = async (): Promise<any> => {
 
 export const getOneHospital = async (id: string): Promise<any> => {
     try {
-        return await getOneData(id);
+        return await getOneData(entity, id);
     } catch (error) {
         return error;
     }
@@ -21,8 +21,8 @@ export const getOneHospital = async (id: string): Promise<any> => {
 
 export const createHospital = async (name: string): Promise<any> => {
     try {
-        const id = generateId();
-        return await insertData(id, name);
+        const data = joinFields({name});
+        return await insertData(entity, data);
     } catch (error) {
         return error;
     }
@@ -30,7 +30,7 @@ export const createHospital = async (name: string): Promise<any> => {
 
 export const updateCategory = async (id: string, name: string): Promise<any> => {
     try {
-        return await updateData(id, name);
+        return await updateData(entity, id, {name});
     } catch (error) {
         return error;
     }
@@ -38,7 +38,7 @@ export const updateCategory = async (id: string, name: string): Promise<any> => 
 
 export const removeHospital = async (id: string): Promise<any> => {
     try {
-        await deleteData(id);
+        await deleteData(entity, id);
     } catch (error) {
         return error;
     }
