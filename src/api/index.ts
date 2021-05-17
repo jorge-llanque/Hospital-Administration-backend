@@ -9,7 +9,7 @@ export default () => {
     app.use(express.json());
     app.use(morgan('combined'));
 
-    // apiRoutes(app);
+    apiRoutes(app);
 
     return app;
 }

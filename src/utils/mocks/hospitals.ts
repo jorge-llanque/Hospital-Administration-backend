@@ -29,4 +29,6 @@ const hospitals = [
     { id:"28", name:"Lenoir Memorial Hospital, Incorporated"},
     { id:"29", name:"Manatee Memorial Hospital"},
     { id:"30", name:"McLaren - Greater Lansing"},
-]
+];
+
+export default hospitals;
