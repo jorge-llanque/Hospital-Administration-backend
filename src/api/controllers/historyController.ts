@@ -1,12 +1,12 @@
 import express, {Request, Response, NextFunction} from "express";
-import { doctorService } from "../../core/services";
+import { historyService } from "../../core/services";
 
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    doctorService.listAllDoctor().then((data: any) => {
+    historyService.listAllHistory().then((data: any) => {
         res.status(200).json({
-            "message": "List of Doctors",
+            "message": "List of Histories",
             "data": data
         })
     }).catch((error: Error) => {
@@ -16,9 +16,9 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    doctorService.getOneDoctor(id).then((data: any) => {
+    historyService.getOneHistory(id).then((data: any) => {
         res.status(200).json({
-            "message": "One Doctor",
+            "message": "One History",
             "data": data
         })
     }).catch((error: Error) => {
@@ -28,19 +28,13 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
 
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
     const data: object = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
-        gender: req.body.gender,
-        address: req.body.address,
-        phone: req.body.phone,
-        birthday: req.body.birthday,
-        avatar: req.body.image
+        description: req.body.description,
+        date: req.body.date,
     }
 
-    doctorService.createDoctor(data).then((data: any) => {
+    historyService.createHistory(data).then((data: any) => {
         res.status(201).json({
-            message: "Doctorr created",
+            message: "History created",
             "data": data
         })
     }).catch( (error: Error) =>{
@@ -52,9 +46,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const data = req.body;
     
-    doctorService.updateDoctor(id, data).then((data: any) => {
+    historyService.updateHistory(id, data).then((data: any) => {
         res.status(200).json({
-            "message": "Doctor updated",
+            "message": "History updated",
             "data": data
         })
     }).catch((error: Error) => {
@@ -64,9 +58,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
 
 router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    doctorService.removeDoctor(id).then(() => {
+    historyService.removeHistory(id).then(() => {
         res.status(200).json({
-            "message": "Doctor Removed"
+            "message": "History Removed"
         })
     }).catch((error: Error) => {
         next(error);

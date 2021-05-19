@@ -1,12 +1,12 @@
 import express, {Request, Response, NextFunction} from "express";
-import { doctorService } from "../../core/services";
+import { patientService } from "../../core/services";
 
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    doctorService.listAllDoctor().then((data: any) => {
+    patientService.listAllPatient().then((data: any) => {
         res.status(200).json({
-            "message": "List of Doctors",
+            "message": "List of Patients",
             "data": data
         })
     }).catch((error: Error) => {
@@ -16,9 +16,9 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    doctorService.getOneDoctor(id).then((data: any) => {
+    patientService.getOnePatient(id).then((data: any) => {
         res.status(200).json({
-            "message": "One Doctor",
+            "message": "One Patient",
             "data": data
         })
     }).catch((error: Error) => {
@@ -32,15 +32,15 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
         last_name: req.body.last_name,
         email: req.body.email,
         gender: req.body.gender,
-        address: req.body.address,
         phone: req.body.phone,
+        address: req.body.address,
         birthday: req.body.birthday,
         avatar: req.body.image
     }
 
-    doctorService.createDoctor(data).then((data: any) => {
+    patientService.createPatient(data).then((data: any) => {
         res.status(201).json({
-            message: "Doctorr created",
+            message: "Patient created",
             "data": data
         })
     }).catch( (error: Error) =>{
@@ -52,9 +52,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const data = req.body;
     
-    doctorService.updateDoctor(id, data).then((data: any) => {
+    patientService.updatePatient(id, data).then((data: any) => {
         res.status(200).json({
-            "message": "Doctor updated",
+            "message": "Patient updated",
             "data": data
         })
     }).catch((error: Error) => {
@@ -64,9 +64,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
 
 router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
-    doctorService.removeDoctor(id).then(() => {
+    patientService.removePatient(id).then(() => {
         res.status(200).json({
-            "message": "Doctor Removed"
+            "message": "Patient Removed"
         })
     }).catch((error: Error) => {
         next(error);
