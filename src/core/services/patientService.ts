@@ -2,9 +2,10 @@ import { getListData, getOneData, insertData, updateData, deleteData } from "../
 import { joinFields } from "../models";
 const  entity: string = "Patient";
 
-export const listAllPatient = async (): Promise<any> => {
+export const listAllPatient = async (dateOfBirth: string, name: string, lastname: string): Promise<any> => {
     try {
-        return await getListData(entity);
+        if(dateOfBirth || name || lastname)        
+        return await getListData(entity, dateOfBirth, name, lastname);
     } catch (error) {
         return error;
     }

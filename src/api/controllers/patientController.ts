@@ -4,7 +4,9 @@ import { patientService } from "../../core/services";
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    patientService.listAllPatient().then((data: any) => {
+    const {dateOfBirth, name, lastname} = req.body;
+
+    patientService.listAllPatient(dateOfBirth, name, lastname).then((data: any) => {
         res.status(200).json({
             "message": "List of Patients",
             "data": data

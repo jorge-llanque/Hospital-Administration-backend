@@ -3,9 +3,10 @@ import hospitals from "../../utils/mocks/hospitals";
 import patients from "../../utils/mocks/patients";
 import histories from "../../utils/mocks/histories";
 import specialties from "../../utils/mocks/specialties";
+import appointments from "../../utils/mocks/appointments";
 
 
-export const getListData = async (entity: string, date_start?: string, date_end?: string, name?: string) => {
+export const getListData = async (entity: string, date_start?: string, date_end?: string, name?: string, id?: string, attr?: string) => {
     try {
         if(entity == "Doctor"){
             return await doctors;
@@ -33,6 +34,7 @@ export const getListData = async (entity: string, date_start?: string, date_end?
                     }
                 })
             }
+        
             return await hospitals
         }
         if(entity == "Patient"){
@@ -43,6 +45,14 @@ export const getListData = async (entity: string, date_start?: string, date_end?
         }
         if(entity == "Specialty"){
             return await specialties
+        }
+        if(entity == "Appointment"){
+            if(attr === "doctor"){
+                return await appointments.filter((data) => data.id_doctor == id)
+            }
+            if(attr === "patient"){
+                return await appointments.filter((data) => data.id_patient == id)
+            }
         }
         
 
