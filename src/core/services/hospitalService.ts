@@ -3,8 +3,11 @@ import { joinFields } from "../models";
 
 const entity: string = "Hospital"
 
-export const listAllHospital = async (): Promise<any> => {
+export const listAllHospital = async (date?:string, name?:string): Promise<any> => {
     try {
+        if(date || name){
+            return await getListData(entity, name);
+        }
         return await getListData(entity);
     } catch (error) {
         return error;

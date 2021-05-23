@@ -5,12 +5,19 @@ import histories from "../../utils/mocks/histories";
 import specialties from "../../utils/mocks/specialties";
 
 
-export const getListData = async (entity: string) => {
+export const getListData = async (entity: string, param?: string) => {
     try {
         if(entity == "Doctor"){
             return await doctors;
         }
         if(entity == "Hospital"){
+            if(param){
+                return await hospitals.filter( data => {
+                    if(data.name.includes(param)){
+                        return data
+                    }
+                })
+            }
             return await hospitals
         }
         if(entity == "Patient"){

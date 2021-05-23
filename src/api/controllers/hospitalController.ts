@@ -18,7 +18,9 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
     
-    hospitalService.listAllHospital().then((list: [])=> {
+    const {date, name} = req.body;
+    
+    hospitalService.listAllHospital(date, name).then((list: [])=> {
         res.status(200).json({
             "message": "List Hospitals",
             "data": list
