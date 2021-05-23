@@ -27,7 +27,8 @@ export const getListData = async (entity: string, date_start?: string, date_end?
             }
             if(name){
                 return await hospitals.filter( data => {
-                    if(data.name.includes(name)){
+                    let nameFromDB = data.name.toLowerCase();
+                    if(nameFromDB.includes(name.toLowerCase())){
                         return data
                     }
                 })
