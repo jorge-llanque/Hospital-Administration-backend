@@ -5,15 +5,29 @@ import histories from "../../utils/mocks/histories";
 import specialties from "../../utils/mocks/specialties";
 
 
-export const getListData = async (entity: string, param?: string) => {
+export const getListData = async (entity: string, date_start?: string, date_end?: string, name?: string) => {
     try {
         if(entity == "Doctor"){
             return await doctors;
         }
         if(entity == "Hospital"){
-            if(param){
+
+            if(date_start && date_end){
+
+                let start = new Date(date_start)
+                let end = new Date(date_end)
+                
+                return await hospitals.filter(data => {
+                    let real = new Date(data.created)
+                    if(real.getTime() >= start.getTime() && real.getTime() <= end.getTime()){
+                        console.log(data);
+                        return data
+                    }
+                })
+            }
+            if(name){
                 return await hospitals.filter( data => {
-                    if(data.name.includes(param)){
+                    if(data.name.includes(name)){
                         return data
                     }
                 })

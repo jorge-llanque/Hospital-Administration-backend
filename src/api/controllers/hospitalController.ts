@@ -4,9 +4,9 @@ import { hospitalService } from "../../core/services";
 const router = express.Router();
 
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
-    const {name} = req.body;
+    const {name, created} = req.body;
 
-    hospitalService.createHospital(name).then((data: any) => {
+    hospitalService.createHospital(name, created).then((data: any) => {
         res.status(201).json({
             message: "Hospital created",
             "data": data
@@ -18,9 +18,9 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
     
-    const {date, name} = req.body;
+    const {date_start, date_end, name} = req.body;
     
-    hospitalService.listAllHospital(date, name).then((list: [])=> {
+    hospitalService.listAllHospital(date_start, date_end, name).then((list: [])=> {
         res.status(200).json({
             "message": "List Hospitals",
             "data": list
