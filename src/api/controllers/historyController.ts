@@ -4,7 +4,13 @@ import { historyService } from "../../core/services";
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    historyService.listAllHistory().then((data: any) => {
+
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+
+    historyService.listAllHistory(paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "List of Histories",
             "data": data

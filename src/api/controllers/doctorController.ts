@@ -4,7 +4,13 @@ import { doctorService } from "../../core/services";
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    doctorService.listAllDoctor().then((data: any) => {
+
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+
+    doctorService.listAllDoctor(paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "List of Doctors",
             "data": data
@@ -32,7 +38,12 @@ router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction
     
     const {id} = req.params;
     
-    doctorService.getAppointments(id).then((data: any) => {
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+
+    doctorService.getAppointments(id, paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "My appointments",
             "data": data

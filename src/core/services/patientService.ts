@@ -1,10 +1,12 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields, Entity } from "../models";
+import { joinFields, Entity, paginatedResults } from "../models";
 
 
-export const listAllPatient = async (dateOfBirth: string, name: string, lastname: string): Promise<any> => {
+export const listAllPatient = async (dateOfBirth: string, name: string, lastname: string, paginatedParams: any): Promise<any> => {
     try {
-        return await getListData(Entity.PATIENT);
+        const result = await getListData(Entity.PATIENT);
+        return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
+
     } catch (error) {
         return error;
     }
@@ -18,14 +20,16 @@ export const getOnePatient = async (id: string): Promise<any> => {
     }
 };
 
-export const getAppointments = async (id: string): Promise<any> => {
+export const getAppointments = async (id: string, paginatedParams: any): Promise<any> => {
     try {
         const listReq = {
             id: id,
             isDoctor: false,
             isPatient: true
         }
-        return await getListData(Entity.APPOINTMENT, undefined, listReq );
+        const result = await getListData(Entity.APPOINTMENT, undefined, listReq );
+        return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
+        
     } catch (error) {
         return error;
     }

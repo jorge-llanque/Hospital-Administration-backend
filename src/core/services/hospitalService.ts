@@ -1,11 +1,13 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { Entity, joinFields } from "../models";
+import { Entity, joinFields, paginatedResults } from "../models";
 
 
-export const listAllHospital = async (filterParams: object): Promise<any> => {
+export const listAllHospital = async (filterParams: object, paginatedParams: any): Promise<any> => {
     try {
 
-        return await getListData(Entity.HOSPITAL, filterParams);
+        const result = await getListData(Entity.HOSPITAL, filterParams);
+
+        return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
 
     } catch (error) {
         return error;
@@ -29,7 +31,7 @@ export const createHospital = async (name: string, created: string): Promise<any
     }
 };
 
-export const updateCategory = async (id: string, name: string): Promise<any> => {
+export const updateHospital = async (id: string, name: string): Promise<any> => {
     try {
         return await updateData(Entity.HOSPITAL, id, {name});
     } catch (error) {

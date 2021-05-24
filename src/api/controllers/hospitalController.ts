@@ -23,9 +23,12 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
         date_end: req.query.date_end,
         name: req.query.name
     };
-    console.log(filterParams);
     
-    hospitalService.listAllHospital(filterParams).then((list: [])=> {
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+    hospitalService.listAllHospital(filterParams, paginationParams).then((list: [])=> {
         res.status(200).json({
             "message": "List Hospitals",
             "data": list
@@ -50,9 +53,9 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
 router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const {name} = req.body;
-    hospitalService.updateCategory(id, name).then((data: any) => {
+    hospitalService.updateHospital(id, name).then((data: any) => {
         res.status(200).json({
-            "message": "Category updated",
+            "message": "Hospital updated",
             "data": data
         })
     }).catch((error: Error) => {

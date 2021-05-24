@@ -1,8 +1,3 @@
-import doctors from "../../utils/mocks/doctors";
-import hospitals from "../../utils/mocks/hospitals";
-import patients from "../../utils/mocks/patients";
-import histories from "../../utils/mocks/histories";
-import specialties from "../../utils/mocks/specialties";
 import Mocks from "../../utils/mocks";
 
 

@@ -1,10 +1,12 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields, Entity } from "../models";
+import { joinFields, Entity, paginatedResults } from "../models";
 
 
-export const listAllSpecialty = async (): Promise<any> => {
+export const listAllSpecialty = async (paginatedParams: any): Promise<any> => {
     try {
-        return await getListData(Entity.SPECIALTY);
+        const result = await getListData(Entity.SPECIALTY);
+        return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
+
     } catch (error) {
         return error;
     }

@@ -6,7 +6,12 @@ const router = express.Router();
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
     const {dateOfBirth, name, lastname} = req.body;
 
-    patientService.listAllPatient(dateOfBirth, name, lastname).then((data: any) => {
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+
+    patientService.listAllPatient(dateOfBirth, name, lastname, paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "List of Patients",
             "data": data
@@ -31,8 +36,13 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
 router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction) => {
     
     const {id} = req.params;
+
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
     
-    patientService.getAppointments(id).then((data: any) => {
+    patientService.getAppointments(id, paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "My appointments",
             "data": data

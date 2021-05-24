@@ -1,10 +1,12 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields, Entity } from "../models";
+import { joinFields, Entity, paginatedResults } from "../models";
 
 
-export const listAllHistory = async (): Promise<any> => {
+export const listAllHistory = async (paginatedParams: any): Promise<any> => {
     try {
-        return await getListData(Entity.HISTORY);
+        const result = await getListData(Entity.HISTORY);
+        return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
+
     } catch (error) {
         return error;
     }

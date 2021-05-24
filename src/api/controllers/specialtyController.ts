@@ -4,7 +4,13 @@ import { specialtyService } from "../../core/services";
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-    specialtyService.listAllSpecialty().then((data: any) => {
+
+    const paginationParams: object = {
+        req_page: req.query.page,
+        req_limit: req.query.limit
+    }
+
+    specialtyService.listAllSpecialty(paginationParams).then((data: any) => {
         res.status(200).json({
             "message": "List of Specialties",
             "data": data
