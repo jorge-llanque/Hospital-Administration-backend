@@ -18,9 +18,14 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
     
-    const {date_start, date_end, name} = req.body;
+    const filterParams: object = {
+        date_start: req.query.date_start,
+        date_end: req.query.date_end,
+        name: req.query.name
+    };
+    console.log(filterParams);
     
-    hospitalService.listAllHospital(date_start, date_end, name).then((list: [])=> {
+    hospitalService.listAllHospital(filterParams).then((list: [])=> {
         res.status(200).json({
             "message": "List Hospitals",
             "data": list

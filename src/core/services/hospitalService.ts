@@ -1,14 +1,12 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields } from "../models";
+import { Entity, joinFields } from "../models";
 
-const entity: string = "Hospital"
 
-export const listAllHospital = async (date_start?:string, date_end?:string, name?:string): Promise<any> => {
+export const listAllHospital = async (filterParams: object): Promise<any> => {
     try {
-        if(date_start || date_end || name){
-            return await getListData(entity, date_start, date_end, name);
-        }
-        return await getListData(entity);
+
+        return await getListData(Entity.HOSPITAL, filterParams);
+
     } catch (error) {
         return error;
     }
@@ -16,7 +14,7 @@ export const listAllHospital = async (date_start?:string, date_end?:string, name
 
 export const getOneHospital = async (id: string): Promise<any> => {
     try {
-        return await getOneData(entity, id);
+        return await getOneData(Entity.HOSPITAL, id);
     } catch (error) {
         return error;
     }
@@ -25,7 +23,7 @@ export const getOneHospital = async (id: string): Promise<any> => {
 export const createHospital = async (name: string, created: string): Promise<any> => {
     try {
         const data = joinFields({name, created});
-        return await insertData(entity, data);
+        return await insertData(Entity.HOSPITAL, data);
     } catch (error) {
         return error;
     }
@@ -33,7 +31,7 @@ export const createHospital = async (name: string, created: string): Promise<any
 
 export const updateCategory = async (id: string, name: string): Promise<any> => {
     try {
-        return await updateData(entity, id, {name});
+        return await updateData(Entity.HOSPITAL, id, {name});
     } catch (error) {
         return error;
     }
@@ -41,7 +39,7 @@ export const updateCategory = async (id: string, name: string): Promise<any> => 
 
 export const removeHospital = async (id: string): Promise<any> => {
     try {
-        await deleteData(entity, id);
+        await deleteData(Entity.HOSPITAL, id);
     } catch (error) {
         return error;
     }

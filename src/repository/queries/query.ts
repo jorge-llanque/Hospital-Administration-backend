@@ -3,52 +3,61 @@ import hospitals from "../../utils/mocks/hospitals";
 import patients from "../../utils/mocks/patients";
 import histories from "../../utils/mocks/histories";
 import specialties from "../../utils/mocks/specialties";
+import Mocks from "../../utils/mocks";
 
 
-export const getListData = async (entity: string, date_start?: string, date_end?: string, name?: string) => {
-    try {
-        if(entity == "Doctor"){
-            return await doctors;
+const compareEntities = (tabla: string) => {
+    for (const  [key, value] of Object.entries(Mocks)) {
+        if(key == tabla){
+            return value
         }
-        if(entity == "Hospital"){
+    }
+}
 
-            if(date_start && date_end){
 
-                let start = new Date(date_start)
-                let end = new Date(date_end)
+export const getListData = async (table: string, filterParams?: any, id?: string, attr?: string) => {
+    try {
+        let listData: any = await compareEntities(table);
+
+        if(filterParams != undefined){
+            
+            if(filterParams.date_start && filterParams.date_start != undefined){
+                console.log("date_startt");
                 
-                return await hospitals.filter(data => {
+                let start = new Date(filterParams.date_start);
+                let end = new Date(filterParams.date_end);
+                    
+                return listData.filter( (data: any) => {
                     let real = new Date(data.created)
                     if(real.getTime() >= start.getTime() && real.getTime() <= end.getTime()){
-                        console.log(data);
+                        return data
+                    };
+                });
+            };
+            
+            if(filterParams.name && filterParams.name != undefined){
+                console.log("name");
+                
+                return listData.filter( (data: any) => {
+                    let nameFromDB = data.name.toLowerCase();
+                    if(nameFromDB.includes(filterParams.name.toLowerCase())){
                         return data
                     }
                 })
             }
-            if(name){
-                return await hospitals.filter( data => {
-                    if(data.name.includes(name)){
-                        return data
-                    }
-                })
-            }
-            return await hospitals
         }
-        if(entity == "Patient"){
-            return await patients
-        }
-        if(entity == "History"){
-            return await histories
-        }
-        if(entity == "Specialty"){
-            return await specialties
-        }
-        
+
+        return listData;
 
     } catch (error) {
         return error;
     }
 }
+
+
+
+
+
 
 export const getOneData = async (entity: string, id: string) => {
     try {

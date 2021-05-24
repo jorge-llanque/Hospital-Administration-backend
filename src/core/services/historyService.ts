@@ -1,10 +1,10 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields } from "../models";
-const  entity: string = "History";
+import { joinFields, Entity } from "../models";
+
 
 export const listAllHistory = async (): Promise<any> => {
     try {
-        return await getListData(entity);
+        return await getListData(Entity.HISTORY);
     } catch (error) {
         return error;
     }
@@ -12,7 +12,7 @@ export const listAllHistory = async (): Promise<any> => {
 
 export const getOneHistory = async (id: string): Promise<any> => {
     try {
-        return await getOneData(entity, id);
+        return await getOneData(Entity.HISTORY, id);
     } catch (error) {
         return error;
     }
@@ -21,7 +21,7 @@ export const getOneHistory = async (id: string): Promise<any> => {
 export const createHistory = async (data: object): Promise<any> => {
     try {
         const info = joinFields(data);
-        return await insertData(entity, info);
+        return await insertData(Entity.HISTORY, info);
     } catch (error) {
         return error;
     }
@@ -29,7 +29,7 @@ export const createHistory = async (data: object): Promise<any> => {
 
 export const updateHistory = async (id: string, data: object): Promise<any> => {
     try {
-        return await updateData(entity, id, data);
+        return await updateData(Entity.HISTORY, id, data);
     } catch (error) {
         return error;
     }
@@ -37,7 +37,7 @@ export const updateHistory = async (id: string, data: object): Promise<any> => {
 
 export const removeHistory = async (id: string): Promise<any> => {
     try {
-        await deleteData(entity, id);
+        await deleteData(Entity.HISTORY, id);
     } catch (error) {
         return error;
     }

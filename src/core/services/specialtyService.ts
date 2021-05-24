@@ -1,10 +1,10 @@
 import { getListData, getOneData, insertData, updateData, deleteData } from "../../repository/queries/query";
-import { joinFields } from "../models";
-const  entity: string = "Specialty";
+import { joinFields, Entity } from "../models";
+
 
 export const listAllSpecialty = async (): Promise<any> => {
     try {
-        return await getListData(entity);
+        return await getListData(Entity.SPECIALTY);
     } catch (error) {
         return error;
     }
@@ -12,7 +12,7 @@ export const listAllSpecialty = async (): Promise<any> => {
 
 export const getOneSpecialty = async (id: string): Promise<any> => {
     try {
-        return await getOneData(entity, id);
+        return await getOneData(Entity.SPECIALTY, id);
     } catch (error) {
         return error;
     }
@@ -21,7 +21,7 @@ export const getOneSpecialty = async (id: string): Promise<any> => {
 export const createSpecialty = async (data: object): Promise<any> => {
     try {
         const info = joinFields(data);
-        return await insertData(entity, info);
+        return await insertData(Entity.SPECIALTY, info);
     } catch (error) {
         return error;
     }
@@ -29,7 +29,7 @@ export const createSpecialty = async (data: object): Promise<any> => {
 
 export const updateSpecialty = async (id: string, data: object): Promise<any> => {
     try {
-        return await updateData(entity, id, data);
+        return await updateData(Entity.SPECIALTY, id, data);
     } catch (error) {
         return error;
     }
@@ -37,7 +37,7 @@ export const updateSpecialty = async (id: string, data: object): Promise<any> =>
 
 export const removeSpecialty = async (id: string): Promise<any> => {
     try {
-        await deleteData(entity, id);
+        await deleteData(Entity.SPECIALTY, id);
     } catch (error) {
         return error;
     }

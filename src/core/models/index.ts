@@ -10,3 +10,11 @@ export const joinFields = (data: any) => {
         ...data
     }
 }
+
+export enum Entity {
+    HOSPITAL = "hospitals",
+    DOCTOR = "doctors",
+    PATIENT = "patients",
+    HISTORY = "histories",
+    SPECIALTY = "specialties"
+}
