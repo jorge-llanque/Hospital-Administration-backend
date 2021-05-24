@@ -15,10 +15,26 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
+    
     const {id} = req.params;
+    
     doctorService.getOneDoctor(id).then((data: any) => {
         res.status(200).json({
             "message": "One Doctor",
+            "data": data
+        })
+    }).catch((error: Error) => {
+        next(error)
+    });
+});
+
+router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction) => {
+    
+    const {id} = req.params;
+    
+    doctorService.getAppointments(id).then((data: any) => {
+        res.status(200).json({
+            "message": "My appointments",
             "data": data
         })
     }).catch((error: Error) => {
@@ -40,7 +56,7 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
 
     doctorService.createDoctor(data).then((data: any) => {
         res.status(201).json({
-            message: "Doctorr created",
+            message: "Doctor created",
             "data": data
         })
     }).catch( (error: Error) =>{

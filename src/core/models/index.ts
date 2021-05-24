@@ -16,5 +16,6 @@ export enum Entity {
     DOCTOR = "doctors",
     PATIENT = "patients",
     HISTORY = "histories",
-    SPECIALTY = "specialties"
+    SPECIALTY = "specialties",
+    APPOINTMENT = "appointments"
 }

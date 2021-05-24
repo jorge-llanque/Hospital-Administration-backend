@@ -18,6 +18,19 @@ export const getOnePatient = async (id: string): Promise<any> => {
     }
 };
 
+export const getAppointments = async (id: string): Promise<any> => {
+    try {
+        const listReq = {
+            id: id,
+            isDoctor: false,
+            isPatient: true
+        }
+        return await getListData(Entity.APPOINTMENT, undefined, listReq );
+    } catch (error) {
+        return error;
+    }
+};
+
 export const createPatient = async (data: object): Promise<any> => {
     try {
         const info = joinFields(data);

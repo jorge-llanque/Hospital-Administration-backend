@@ -28,6 +28,20 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     });
 });
 
+router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction) => {
+    
+    const {id} = req.params;
+    
+    patientService.getAppointments(id).then((data: any) => {
+        res.status(200).json({
+            "message": "My appointments",
+            "data": data
+        })
+    }).catch((error: Error) => {
+        next(error)
+    });
+});
+
 router.post('/', (req: Request, res: Response, next: NextFunction) => {
     const data: object = {
         first_name: req.body.first_name,
