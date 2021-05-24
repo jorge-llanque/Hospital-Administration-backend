@@ -2,7 +2,7 @@ import { getListData, getOneData, insertData, updateData, deleteData } from "../
 import { joinFields, Entity } from "../models";
 
 
-export const listAllPatient = async (): Promise<any> => {
+export const listAllPatient = async (dateOfBirth: string, name: string, lastname: string): Promise<any> => {
     try {
         return await getListData(Entity.PATIENT);
     } catch (error) {

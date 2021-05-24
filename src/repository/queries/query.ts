@@ -22,7 +22,6 @@ export const getListData = async (table: string, filterParams?: any, id?: string
         if(filterParams != undefined){
             
             if(filterParams.date_start && filterParams.date_start != undefined){
-                console.log("date_startt");
                 
                 let start = new Date(filterParams.date_start);
                 let end = new Date(filterParams.date_end);
@@ -36,7 +35,6 @@ export const getListData = async (table: string, filterParams?: any, id?: string
             };
             
             if(filterParams.name && filterParams.name != undefined){
-                console.log("name");
                 
                 return listData.filter( (data: any) => {
                     let nameFromDB = data.name.toLowerCase();
