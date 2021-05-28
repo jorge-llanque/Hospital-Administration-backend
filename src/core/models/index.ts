@@ -25,6 +25,18 @@ export interface Hospital{
   created: string
 }
 
+export interface Doctor {
+  id?: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  gender: string,
+  address: string,
+  phone: string,
+  birthday: string,
+  avatar: string
+}
+
 export const paginatedResults = (data: any, req_page: string, req_limit: string) => {
 
     const page = parseInt(req_page);

@@ -1,19 +1,23 @@
 import express, {Request, Response, NextFunction} from "express";
+import { Doctor, Result } from "../../core/models";
 import { doctorService } from "../../core/services";
+import { validationHandler } from "../../utils/middlewares";
+import { createDoctorSchema, updateDoctorSchema } from "../../utils/schemas";
+
 
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
 
     const paginationParams: object = {
-        req_page: req.query.page,
-        req_limit: req.query.limit
+        req_page: req.query.page || '1',
+        req_limit: req.query.limit || '10'
     }
 
-    doctorService.listAllDoctor(paginationParams).then((data: any) => {
+    doctorService.listAllDoctor(paginationParams).then((result: Result) => {
         res.status(200).json({
             "message": "List of Doctors",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
@@ -23,11 +27,13 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     
     const {id} = req.params;
-    
-    doctorService.getOneDoctor(id).then((data: any) => {
+    doctorService.getOneDoctor(id).then((result: Doctor) => {
+        if(!result){
+            throw new Error("There is not data")
+        }
         res.status(200).json({
             "message": "One Doctor",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
@@ -39,22 +45,22 @@ router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction
     const {id} = req.params;
     
     const paginationParams: object = {
-        req_page: req.query.page,
-        req_limit: req.query.limit
+        req_page: req.query.page || '1',
+        req_limit: req.query.limit || '10'
     }
 
-    doctorService.getAppointments(id, paginationParams).then((data: any) => {
+    doctorService.getAppointments(id, paginationParams).then((result: Result) => {
         res.status(200).json({
             "message": "My appointments",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
     });
 });
 
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
-    const data: object = {
+router.post('/', validationHandler(createDoctorSchema), (req: Request, res: Response, next: NextFunction) => {
+    const data: Doctor = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
@@ -65,17 +71,18 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
         avatar: req.body.image
     }
 
-    doctorService.createDoctor(data).then((data: any) => {
+    doctorService.createDoctor(data).then((result: Doctor) => {
         res.status(201).json({
             message: "Doctor created",
-            "data": data
+            "data": result
         })
     }).catch( (error: Error) =>{
         next(error);
     });
 });
 
-router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id',validationHandler(updateDoctorSchema), (req: Request, res: Response, next: NextFunction) => {
+
     const {id} = req.params;
     const data = req.body;
     
