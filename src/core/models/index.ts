@@ -55,6 +55,13 @@ export interface History {
   date: string
 }
 
+export interface Specialty {
+  id?: string,
+  name: string,
+  description: string,
+  avatar: string
+}
+
 export const paginatedResults = (data: any, req_page: string, req_limit: string) => {
 
     const page = parseInt(req_page);
