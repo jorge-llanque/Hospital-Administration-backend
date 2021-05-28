@@ -37,6 +37,12 @@ export interface Doctor {
   avatar: string
 }
 
+export interface History {
+  id?: string,
+  description: string,
+  date: string
+}
+
 export const paginatedResults = (data: any, req_page: string, req_limit: string) => {
 
     const page = parseInt(req_page);

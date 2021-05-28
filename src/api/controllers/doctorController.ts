@@ -86,10 +86,10 @@ router.put('/:id',validationHandler(updateDoctorSchema), (req: Request, res: Res
     const {id} = req.params;
     const data = req.body;
     
-    doctorService.updateDoctor(id, data).then((data: any) => {
+    doctorService.updateDoctor(id, data).then((result: Doctor) => {
         res.status(200).json({
             "message": "Doctor updated",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error);
