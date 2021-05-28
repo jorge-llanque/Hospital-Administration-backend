@@ -37,6 +37,18 @@ export interface Doctor {
   avatar: string
 }
 
+export interface Patient {
+  id?: string,
+  first_name: string,
+  last_name: string,
+  email: string,
+  gender: string,
+  phone: string,
+  address: string,
+  birthday: string,
+  avatar: string
+}
+
 export interface History {
   id?: string,
   description: string,

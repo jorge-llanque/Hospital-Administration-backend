@@ -1,20 +1,26 @@
 import express, {Request, Response, NextFunction} from "express";
+import { Result, Patient } from "../../core/models";
 import { patientService } from "../../core/services";
+import { validationHandler } from "../../utils/middlewares";
+import { createPatientSchema, updatePatientSchema } from "../../utils/schemas";
+
+
 
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
+    
     const {dateOfBirth, name, lastname} = req.body;
 
     const paginationParams: object = {
-        req_page: req.query.page,
-        req_limit: req.query.limit
+        req_page: req.query.page || '1',
+        req_limit: req.query.limit || '10'
     }
 
-    patientService.listAllPatient(dateOfBirth, name, lastname, paginationParams).then((data: any) => {
+    patientService.listAllPatient(dateOfBirth, name, lastname, paginationParams).then((result: Result) => {
         res.status(200).json({
             "message": "List of Patients",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
@@ -22,11 +28,13 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
+    
     const {id} = req.params;
-    patientService.getOnePatient(id).then((data: any) => {
+    
+    patientService.getOnePatient(id).then((result: Patient) => {
         res.status(200).json({
             "message": "One Patient",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
@@ -38,22 +46,23 @@ router.get('/:id/appointments', (req: Request, res: Response, next: NextFunction
     const {id} = req.params;
 
     const paginationParams: object = {
-        req_page: req.query.page,
-        req_limit: req.query.limit
+        req_page: req.query.page || '1' ,
+        req_limit: req.query.limit || '10'
     }
     
-    patientService.getAppointments(id, paginationParams).then((data: any) => {
+    patientService.getAppointments(id, paginationParams).then((result: Result) => {
         res.status(200).json({
             "message": "My appointments",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error)
     });
 });
 
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
-    const data: object = {
+router.post('/', validationHandler(createPatientSchema), (req: Request, res: Response, next: NextFunction) => {
+    
+    const data: Patient = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         email: req.body.email,
@@ -64,24 +73,25 @@ router.post('/', (req: Request, res: Response, next: NextFunction) => {
         avatar: req.body.image
     }
 
-    patientService.createPatient(data).then((data: any) => {
+    patientService.createPatient(data).then(( result: Patient) => {
         res.status(201).json({
             message: "Patient created",
-            "data": data
+            "data": result
         })
     }).catch( (error: Error) =>{
         next(error);
     });
 });
 
-router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id', validationHandler(updatePatientSchema), (req: Request, res: Response, next: NextFunction) => {
+    
     const {id} = req.params;
     const data = req.body;
     
-    patientService.updatePatient(id, data).then((data: any) => {
+    patientService.updatePatient(id, data).then((result: Patient) => {
         res.status(200).json({
             "message": "Patient updated",
-            "data": data
+            "data": result
         })
     }).catch((error: Error) => {
         next(error);
@@ -89,7 +99,9 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
+    
     const {id} = req.params;
+    
     patientService.removePatient(id).then(() => {
         res.status(200).json({
             "message": "Patient Removed"
