@@ -27,8 +27,8 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
     };
     
     const paginationParams: object = {
-        req_page: req.query.page,
-        req_limit: req.query.limit
+        req_page: req.query.page || 1 ,
+        req_limit: req.query.limit || 10
     }
     hospitalService.listAllHospital(filterParams, paginationParams).then((list: [])=> {
         res.status(200).json({
@@ -53,8 +53,10 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.put('/:id', validationHandler(updateHospitalSchema), (req: Request, res: Response, next: NextFunction) => {
+    
     const {id} = req.params;
     const {name} = req.body;
+
     hospitalService.updateHospital(id, name).then((data: any) => {
         res.status(200).json({
             "message": "Hospital updated",
@@ -75,6 +77,5 @@ router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
         next(error);
     })
 })
-
 
 export default router;

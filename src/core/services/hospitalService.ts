@@ -5,6 +5,8 @@ import { Entity, joinFields, paginatedResults } from "../models";
 export const listAllHospital = async (filterParams: object, paginatedParams: any): Promise<any> => {
     try {
 
+        console.log(filterParams);
+        
         const result = await getListData(Entity.HOSPITAL, filterParams);
 
         return paginatedResults(result, paginatedParams.req_page, paginatedParams.req_limit);
