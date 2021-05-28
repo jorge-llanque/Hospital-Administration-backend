@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import { hospitalService } from "../../core/services";
+import { validationHandler } from "../../utils/middlewares";
+import { createHospitalSchema, updateHospitalSchema } from "../../utils/schemas";
 
 const router = express.Router();
 
-router.post('/', (req: Request, res: Response, next: NextFunction) => {
+router.post('/', validationHandler(createHospitalSchema), (req: Request, res: Response, next: NextFunction) => {
     const {name, created} = req.body;
 
     hospitalService.createHospital(name, created).then((data: any) => {
@@ -50,7 +52,7 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction) => {
     });
 });
 
-router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
+router.put('/:id', validationHandler(updateHospitalSchema), (req: Request, res: Response, next: NextFunction) => {
     const {id} = req.params;
     const {name} = req.body;
     hospitalService.updateHospital(id, name).then((data: any) => {
