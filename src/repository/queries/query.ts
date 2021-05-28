@@ -77,7 +77,9 @@ export const getListData = async (table: string, filterParams?: any, listReq?: a
 export const getOneData = async (table: string, id: string) => {
     try {
         let listData: any = await compareEntities(table);
-        return listData.find((data: any) => data.id === id);
+        const result = listData.find((data: any) => data.id === id);
+        
+            return result
         
     } catch (error) {
         return error;
@@ -104,7 +106,7 @@ export const updateData = async (table: string, id: string, newData: object) => 
                 await value.forEach((data: any) => {
                     if(data.id == id){
                         Object.assign(data, newData)
-                        return value;
+                        return data;
                     }
                 })
             }

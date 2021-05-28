@@ -1,3 +1,4 @@
+import { string } from '@hapi/joi';
 import { v4 as uuidv4 } from 'uuid';
 
 const generateId = () => {
@@ -11,10 +12,17 @@ export const joinFields = (data: any) => {
     }
 }
 
-interface Results {
+export interface Result {
     previous?: any,
     next?: any,
-    result?: any
+    result?: []
+}
+
+
+export interface Hospital{
+  id: string,
+  name: string,
+  created: string
 }
 
 export const paginatedResults = (data: any, req_page: string, req_limit: string) => {
@@ -25,7 +33,7 @@ export const paginatedResults = (data: any, req_page: string, req_limit: string)
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
-    const results: Results = {}
+    const results: Result = {}
   
     if (endIndex < data.length) {
       results.next = {
