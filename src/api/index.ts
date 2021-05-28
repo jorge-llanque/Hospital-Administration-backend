@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 import "reflect-metadata";
 import apiRoutes from "./routes";
 import { logErrors, wrapErrors, errorHandler, notFoundHandler } from "../utils/middlewares";
@@ -7,6 +8,7 @@ import { logErrors, wrapErrors, errorHandler, notFoundHandler } from "../utils/m
 export default () => {
     
     const app = express();
+    app.use(cors());
     app.use(express.json());
     app.use(morgan('combined'));
 
